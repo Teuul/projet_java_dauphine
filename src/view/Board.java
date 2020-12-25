@@ -16,6 +16,7 @@ public class Board extends JFrame{
         this.grid = new Grid(size,"resources/init_grid.txt", Grid.mode.TOUCHING);
         this.gamePane = new GamePanel(size,grid);
 
+        // TOP GAME PANE BANNER
         JPanel topBanner = new JPanel();
         topBanner.setPreferredSize(new Dimension(500,50));
         GridBagConstraints cons = new GridBagConstraints();
@@ -27,6 +28,7 @@ public class Board extends JFrame{
         cons.anchor = GridBagConstraints.NORTH;
         gamePane.add(topBanner,cons);
 
+        // LEFT GAME PANE BANNER
         JPanel leftBanner = new JPanel();
         leftBanner.setPreferredSize(new Dimension(50,400));
         cons = new GridBagConstraints();
@@ -38,6 +40,7 @@ public class Board extends JFrame{
         cons.anchor = GridBagConstraints.WEST;
         gamePane.add(leftBanner,cons);
 
+        // RIGHT GAME PANE BANNER
         JPanel rightBanner = new JPanel();
         rightBanner.setPreferredSize(new Dimension(50,400));
         cons = new GridBagConstraints();
@@ -49,6 +52,7 @@ public class Board extends JFrame{
         cons.anchor = GridBagConstraints.EAST;
         gamePane.add(rightBanner,cons);
 
+        // BOTTOM GAME PANE BANNER
         JPanel bottomBanner = new JPanel();
         bottomBanner.setPreferredSize(new Dimension(500,50));
         cons = new GridBagConstraints();
@@ -62,15 +66,10 @@ public class Board extends JFrame{
 
         for(int j=0;j<size;j++){
             for(int i=0;i<size;i++){
-                PointView p = new PointView(i,j,getGrid().getPoint(i,j).getIndex());
-                cons = new GridBagConstraints();
-                cons.gridx = i+1;
-                cons.gridy = j+1;
-                cons.weightx = 1;
-                cons.weighty = 1;
-                cons.anchor = GridBagConstraints.NORTHWEST;
-                gamePane.add(p,cons);
+                PointView p = new PointView(getGrid().getPoint(i,j));
+                gamePane.add(p,p.getConstraints());
                 gamePane.addPointView(i,j,p);
+                getGrid().getPoint(i,j).setView(p);
             }
         }
 
@@ -90,5 +89,6 @@ public class Board extends JFrame{
         board.pack();
         board.setVisible(true);
         board.setResizable(false);
+        board.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 }

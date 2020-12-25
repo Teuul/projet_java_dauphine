@@ -1,5 +1,6 @@
 package controller;
 
+import model.Line;
 import model.Point;
 import view.GamePanel;
 import view.PointView;
@@ -23,11 +24,9 @@ public class MouseController implements MouseMotionListener, MouseListener {
         int coordY = getGridY(e.getY());
         Point p = chosenPlay(e.getX(),e.getY());
         if(p!=null){
-            if(gameContainer.getGrid().playableSpot(coordX,coordY)){
-                gameContainer.getGrid().play(coordX,coordY,0,0); // update this line
-                gameContainer.getPointView(coordX,coordY).setIndex(gameContainer.getGrid().turn());
-                gameContainer.getPointView(coordX,coordY).removeAll();
-                gameContainer.getPointView(coordX,coordY).paintComponent(gameContainer.getPointView(coordX,coordY).getGraphics());
+            Line[] line_extract = new Line[1];
+            if(gameContainer.getGrid().playableSpot(coordX,coordY,line_extract)){
+                gameContainer.getGrid().play(line_extract[0]);
             }
         }
     }

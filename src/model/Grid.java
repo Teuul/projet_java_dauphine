@@ -1,6 +1,7 @@
 package model;
 
-import javax.sound.midi.SysexMessage;
+import view.LineType;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -64,7 +65,7 @@ public class Grid {
         return null;
     }
 
-    public boolean playableSpot(int x,int y){
+    public boolean playableSpot(int x,int y,Line[] line_extract){
         /**
          * Returns true if the point is playable and false if not (according to the mode and the position)
          */
@@ -77,77 +78,104 @@ public class Grid {
                 bSup = 0;
             }
 
-            System.out.println(x+","+y+":");
-
+            Point P1=null;
+            Point P2=null;
             int i;
+
             // direction 1
             int c = 0;
             for(i=-4;i<=4;i++){
                 c = countPoint(x+i,y,x,y,c,bInf,bSup);
-                //System.out.println("Hor-> "+c);
-                if(c==5)
+                if(c==1){
+                    P1 = getPoint(x+i,y);
+                }
+                if(c==5) {
+                    P2 = getPoint(x+i,y);
                     break;
+                }
             }
-            //System.out.println();
             if(c==5) {
-                System.out.println("HOR "+c + ";");
+                Line l = new Line(P1,P2, LineType.HORIZONTAL);
+                line_extract[0] = l;
+                //System.out.println("HOR "+ c + ";");
                 return true;
             }
-            System.out.print("HOR "+c+";");
+            //System.out.print("HOR "+ c+";");
+
             // direction 2
             c = 0;
             for(i=-4;i<=4;i++){
                 c = countPoint(x,y+i,x,y,c,bInf,bSup);
-                //System.out.println("Vert-> "+c);
-                if(c==5)
+                if(c==1){
+                    P1 = getPoint(x,y+i);
+                }
+                if(c==5) {
+                    P2 = getPoint(x,y+i);
                     break;
+                }
             }
             if(c==5) {
-                System.out.println("VER "+c + ";");
+                Line l = new Line(P1,P2,LineType.VERTICAL);
+                line_extract[0] = l;
+                //System.out.println("VER "+ c + ";");
                 return true;
             }
-            System.out.print("VER "+c+";");
+            //System.out.print("VER "+c+";");
 
             // direction 3
             c = 0;
             for(i=-4;i<=4;i++){
                 c = countPoint(x+i,y+i,x,y,c,bInf,bSup);
-                //System.out.println("D_down-> "+c);
-                if(c==5)
+                if(c==1){
+                    P1 = getPoint(x+i,y+i);
+                }
+                if(c==5) {
+                    P2 = getPoint(x+i,y+i);
                     break;
+                }
             }
             if(c==5) {
-                System.out.println("DIA_d "+c + ";");
+                Line l = new Line(P1,P2,LineType.DIAGONAL_DOWN);
+                line_extract[0] = l;
+                //System.out.println("DIA_d "+ c + ";");
                 return true;
             }
-            System.out.print("DIA_d "+c+";");
+            //System.out.print("DIA_d "+ c +";");
 
             // direction 4
             c = 0;
             for(i=-4;i<=4;i++){
                 c = countPoint(x+i,y-i,x,y,c,bInf,bSup);
-                //System.out.println("D_up-> "+c);
-                if(c==5)
+                if(c==1){
+                    P1 = getPoint(x+i,y-i);
+                }
+                if(c==5) {
+                    P2 = getPoint(x+i,y-i);
                     break;
+                }
             }
             if(c==5) {
-                System.out.println("DIA_u "+c + ";");
+                Line l = new Line(P1,P2,LineType.DIAGONAL_UP);
+                line_extract[0] = l;
+                //System.out.println("DIA_u "+ c + ";");
                 return true;
             }
-            System.out.print("DIA_u "+c+";");
+            //System.out.print("DIA_u "+ c +";");
 
         }
-        System.out.println("\n");
+        //System.out.println("\n");
         return false;
     }
 
-    public void play(int x1, int y1, int x2, int y2){
-        /**
-         * Updates the model (and view) according to the chosen play
-         */
-        getPoint(x1,y1).setIndex(lines.size()+1);
-        lines.add(new Line(getPoint(x1,y1),getPoint(x2,y2)));
-        // update ui
+    public void play(Line l){
+        lines.add(l);
+        ArrayList<Point> points = getLinePoints(l);
+        for(Point p: points){
+            p.setIndex(lines.size());
+            p.getView().updateLineToDraw(l.getType());
+            p.getView().setIndex(lines.size());
+            p.getView().updateView();
+        }
     }
 
     public int countPoint(int x,int y,int testX,int testY,int c,int bInf,int bSup){
@@ -195,15 +223,31 @@ public class Grid {
     }
 
     public int turn(){
-        return lines.size()+1;
+        return lines.size();
+    }
+
+    public ArrayList<Point> getLinePoints(Line l){
+        ArrayList<Point> points = new ArrayList<>();
+        points.add(l.getP1());
+        int DX = l.getP2().getX()-l.getP1().getX();
+        int DY = l.getP2().getY()- l.getP1().getY();
+        //System.out.println(DX+" & "+DY);
+        for(int i=1;i<=3;i++){
+            //System.out.println((l.getP1().getX()+(DX/4)*i)+" | "+(l.getP1().getY()+(DY/4)*i));
+            points.add(getPoint(l.getP1().getX()+(DX/4)*i,l.getP1().getY()+(DY/4)*i));
+        }
+        points.add(l.getP2());
+        return points;
     }
 
     public static void main(String args[]){
+        Line[] line_extract = new Line[1];
+
         Grid b = new Grid(16,"resources/init_grid.txt",mode.TOUCHING);
         System.out.println(b);
-        System.out.println(b.playableSpot(10,5));
-        System.out.println(b.playableSpot(10,6));
-        System.out.println(b.playableSpot(11,5));
-        System.out.println(b.playableSpot(12,5));
+        System.out.println(b.playableSpot(10,5,line_extract));
+        System.out.println(b.playableSpot(10,6,line_extract));
+        System.out.println(b.playableSpot(11,5,line_extract));
+        System.out.println(b.playableSpot(12,5,line_extract));
     }
 }
