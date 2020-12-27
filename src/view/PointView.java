@@ -7,11 +7,12 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class PointView extends JPanel {
-    private int x, y, index;
-    private boolean hovered;
-    private GridBagConstraints constraints;
-    private Point modelPoint;
-    private ArrayList<LineComponent> lineToDraw;
+    private int x, y;                               // X-coordinate and Y-coordinate of the model view in the grid
+    private int index;                              // view status (latest line it belongs to)
+    private boolean hovered;                        // Flag: true if hovered (by the mouse), false if not
+    private GridBagConstraints constraints;         // Displaying constraints
+    private Point modelPoint;                       // direct reference to the model point
+    private ArrayList<LineComponent> lineToDraw;    // Line elements to display around the PointView (JPanel)
 
     public PointView(Point p){
         this.modelPoint = p;
@@ -20,18 +21,6 @@ public class PointView extends JPanel {
         this.index = p.getIndex();
         this.hovered = false;
         this.lineToDraw = new ArrayList<>();
-        /*
-        // delete after testing
-        this.lineToDraw.add(LineComponent.NORTH);
-        this.lineToDraw.add(LineComponent.NORTHEAST);
-        this.lineToDraw.add(LineComponent.EAST);
-        this.lineToDraw.add(LineComponent.SOUTHEAST);
-        this.lineToDraw.add(LineComponent.SOUTH);
-        this.lineToDraw.add(LineComponent.SOUTHWEST);
-        this.lineToDraw.add(LineComponent.WEST);
-        this.lineToDraw.add(LineComponent.NORTHWEST);
-        // delete after testing
-         */
 
         setPreferredSize(new Dimension(25,25));
         this.constraints = new GridBagConstraints();
@@ -43,6 +32,9 @@ public class PointView extends JPanel {
     }
 
     public void paintComponent(Graphics g){
+        /**
+         * Displays the point view according to the object attributes
+         */
         super.paintComponent(g);
         if(index>=0){
             g.setColor(Color.BLACK);
@@ -92,25 +84,26 @@ public class PointView extends JPanel {
     }
 
     public void updateView(){
+        /**
+         * Updates the view: removes current graphics and repaint new ones
+         */
         this.removeAll();
         this.paint(this.getGraphics());
     }
 
-    public int getCoordX(){
-        return x;
-    }
-
-    public int getCoordY(){
-        return y;
-    }
-
     public void addLineComponent(LineComponent comp){
+        /**
+         * Add non existing line components to draw
+         */
         if(!lineToDraw.contains(comp)){
             lineToDraw.add(comp);
         }
     }
 
     public void updateLineToDraw(LineType type){
+        /**
+         * Add line components given a line type
+         */
         if(type==LineType.HORIZONTAL){
             addLineComponent(LineComponent.WEST);
             addLineComponent(LineComponent.EAST);
@@ -127,6 +120,13 @@ public class PointView extends JPanel {
     }
 
     public void drawLines(Graphics g){
+        /**
+         * Graphic method: draw the line components
+         */
+        if(lineToDraw.contains(LineComponent.NORTHWEST)){
+            g.drawLine(0,0,7,7);
+            g.drawLine(0,1,7,8);
+        }
         if(lineToDraw.contains(LineComponent.NORTH)){
             g.drawLine(12,0,12,5);
             g.drawLine(13,0,13,5);
@@ -155,9 +155,15 @@ public class PointView extends JPanel {
             g.drawLine(0,12,5,12);
             g.drawLine(0,13,5,13);
         }
-        if(lineToDraw.contains(LineComponent.NORTHWEST)){
-            g.drawLine(0,0,7,7);
-            g.drawLine(0,1,7,8);
-        }
+    }
+
+    public void resetView(Point p){
+        this.modelPoint = p;
+        this.x = p.getX();
+        this.y = p.getY();
+        this.index = p.getIndex();
+        this.hovered = false;
+        this.lineToDraw = new ArrayList<>();
+        this.updateView();
     }
 }

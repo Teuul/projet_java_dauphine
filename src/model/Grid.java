@@ -163,11 +163,13 @@ public class Grid {
             //System.out.print("DIA_u "+ c +";");
 
         }
-        //System.out.println("\n");
         return false;
     }
 
     public void play(Line l){
+        /**
+         * Updates the model according to the chosen play (line)
+         */
         lines.add(l);
         ArrayList<Point> points = getLinePoints(l);
         for(Point p: points){
@@ -222,22 +224,34 @@ public class Grid {
         return res;
     }
 
-    public int turn(){
-        return lines.size();
-    }
-
     public ArrayList<Point> getLinePoints(Line l){
+        /**
+         * Returns the points composing the given line
+         */
         ArrayList<Point> points = new ArrayList<>();
         points.add(l.getP1());
         int DX = l.getP2().getX()-l.getP1().getX();
         int DY = l.getP2().getY()- l.getP1().getY();
-        //System.out.println(DX+" & "+DY);
+
         for(int i=1;i<=3;i++){
-            //System.out.println((l.getP1().getX()+(DX/4)*i)+" | "+(l.getP1().getY()+(DY/4)*i));
             points.add(getPoint(l.getP1().getX()+(DX/4)*i,l.getP1().getY()+(DY/4)*i));
         }
         points.add(l.getP2());
         return points;
+    }
+
+    public boolean isOver(){
+        /**
+         * Returns true if the game is over, false if not
+         */
+        for(int j=0;j<size;j++){
+            for(int i=0;i<size;i++){
+                if(getPoint(i,j).getIndex()==-1){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public static void main(String args[]){

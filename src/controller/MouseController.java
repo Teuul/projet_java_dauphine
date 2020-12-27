@@ -10,9 +10,9 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 public class MouseController implements MouseMotionListener, MouseListener {
-    final int xOffset = 50+9;
-    final int yOffset = 50+33;
-    private GamePanel gameContainer;
+    final int xOffset = 50+9;           // JFrame X-offset + banner offset
+    final int yOffset = 50+33;          // JFrame Y-offset + banner offset
+    private GamePanel gameContainer;    // reference to the game container (JPanel)
 
     public MouseController(GamePanel gamePane){
         this.gameContainer = gamePane;
@@ -20,6 +20,9 @@ public class MouseController implements MouseMotionListener, MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        /**
+         * Interaction with the grid (by clicking)
+         */
         int coordX = getGridX(e.getX());
         int coordY = getGridY(e.getY());
         Point p = chosenPlay(e.getX(),e.getY());
@@ -27,6 +30,9 @@ public class MouseController implements MouseMotionListener, MouseListener {
             Line[] line_extract = new Line[1];
             if(gameContainer.getGrid().playableSpot(coordX,coordY,line_extract)){
                 gameContainer.getGrid().play(line_extract[0]);
+                if(gameContainer.getGrid().isOver()){
+                    System.out.println("Game is finished");
+                }
             }
         }
     }
@@ -58,6 +64,9 @@ public class MouseController implements MouseMotionListener, MouseListener {
 
     @Override
     public void mouseMoved(MouseEvent e) {
+        /**
+         * Interaction with the grid (by moving the cursor)
+         */
         PointView hovering = aimedPoint(e.getX(),e.getY());
         PointView hovered = gameContainer.lastHovered();
         if(hovered==null && hovering!=null){
@@ -79,18 +88,30 @@ public class MouseController implements MouseMotionListener, MouseListener {
     }
 
     public PointView aimedPoint(int x, int y){
+        /**
+         * Returns the point view according to the given coordinates
+         */
         return gameContainer.getPointView(getGridX(x),getGridY(y));
     }
 
     public int getGridX(int x){
+        /**
+         * Returns the cursor X-coordinate in the grid
+         */
         return (x-xOffset)/25;
     }
 
     public int getGridY(int y){
+        /**
+         * Returns the cursor Y-coordinate in the grid
+         */
         return (y-yOffset)/25;
     }
 
     public Point chosenPlay(int x, int y){
+        /**
+         * Returns the point according to the given coordinates
+         */
         return gameContainer.getGrid().getPoint(getGridX(x),getGridY(y));
     }
 }

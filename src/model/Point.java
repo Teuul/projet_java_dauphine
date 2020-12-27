@@ -5,16 +5,14 @@ import view.PointView;
 import java.util.ArrayList;
 
 public class Point {
-    private int x,y;
-    private ArrayList<Line> lines;
-    private int index;
-    private PointView view;
+    private int x,y;                // X-coordinate and Y-coordinate in the grid (starting at the left top corner, ending at the right bottom corner)
+    private int index;              // status of the point (latest line it belongs to)
+    private PointView view;         // reference to its model view
 
     public Point(int x,int y,int index){
         this.x = x;
         this.y = y;
         this.index = index;
-        this.lines = new ArrayList<>();
         this.view = null;
     }
 
@@ -48,10 +46,6 @@ public class Point {
 
     public PointView getView(){
         return this.view;
-    }
-
-    public ArrayList<Line> getLines() {
-        return lines;
     }
 
     @Override
