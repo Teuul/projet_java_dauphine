@@ -166,21 +166,28 @@ public class Grid {
         return false;
     }
 
-    public void play(Line l){
-        /**
-         * Updates the model according to the chosen play (line)
-         */
-        lines.add(l);
-        ArrayList<Point> points = getLinePoints(l);
-        for(Point p: points){
-            p.setIndex(lines.size());
-            p.getView().updateLineToDraw(l.getType());
-            p.getView().setIndex(lines.size());
-            p.getView().updateView();
+    public void play(int x,int y){
+        Point p = getPoint(x,y);
+        if(p!=null){
+            Line[] line_extract = new Line[1];
+            if(playableSpot(x,y,line_extract)){
+                Line l = line_extract[0];
+                lines.add(l);
+                ArrayList<Point> points = getLinePoints(l);
+                for(Point point: points){
+                    point.setIndex(lines.size());
+                    point.getView().updateLineToDraw(l.getType());
+                    point.getView().setIndex(lines.size());
+                    point.getView().updateView();
+                }
+                if(isOver()){
+                    System.out.println("Game is finished");
+                }
+            }
         }
     }
 
-    public int countPoint(int x,int y,int testX,int testY,int c,int bInf,int bSup){
+    private int countPoint(int x,int y,int testX,int testY,int c,int bInf,int bSup){
         /**
          * Used with playableSpot, to find the maximum number of aligned point (meraeable into one line) around a certain point
          */
@@ -224,7 +231,7 @@ public class Grid {
         return res;
     }
 
-    public ArrayList<Point> getLinePoints(Line l){
+    private ArrayList<Point> getLinePoints(Line l){
         /**
          * Returns the points composing the given line
          */
@@ -252,6 +259,10 @@ public class Grid {
             }
         }
         return true;
+    }
+
+    public int getSize(){
+        return size;
     }
 
     public static void main(String args[]){

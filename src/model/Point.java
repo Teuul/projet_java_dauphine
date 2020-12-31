@@ -2,8 +2,6 @@ package model;
 
 import view.PointView;
 
-import java.util.ArrayList;
-
 public class Point {
     private int x,y;                // X-coordinate and Y-coordinate in the grid (starting at the left top corner, ending at the right bottom corner)
     private int index;              // status of the point (latest line it belongs to)

@@ -1,5 +1,7 @@
 package view;
 
+import model.AI;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,15 +10,17 @@ import java.awt.event.ActionListener;
 public class SolveButton extends JButton {
     private GamePanel gameContainer;            // Game pane
     private GridBagConstraints constraints;     // Button displaying constraints
+    private AI bot;
 
-    public SolveButton(GamePanel container){
+    public SolveButton(AI bot){
         setPreferredSize(new Dimension(200,250));
         setBackground(Color.DARK_GRAY);
         setForeground(Color.WHITE);
         setFocusPainted(false);
         setText("solve");
 
-        this.gameContainer = container;
+        this.bot = bot;
+        //this.gameContainer = container;
         this.constraints = new GridBagConstraints();
         this.constraints.gridx = 0;
         this.constraints.gridy = 1;
@@ -29,6 +33,7 @@ public class SolveButton extends JButton {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("SolveButton pressed");
+                bot.solve();
             }
         });
     }

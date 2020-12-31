@@ -16,6 +16,7 @@ public class GamePanel extends JPanel {
         this.size = size;
         this.gridView = new PointView[size][size];
         this.grid = null;
+        this.bot = null;
 
         setPreferredSize(new Dimension(500,500));
         setLayout(new GridBagLayout());
@@ -120,9 +121,11 @@ public class GamePanel extends JPanel {
                     this.add(p,p.getConstraints());
                     this.addPointView(i,j,p);
                     getGrid().getPoint(i,j).setView(p);
+                    this.bot = new AI(this.grid);
                 } else {
                     this.getPointView(i,j).resetView(getGrid().getPoint(i,j));
                     getGrid().getPoint(i,j).setView(getPointView(i,j));
+                    this.bot.reset(grid);
                 }
             }
         }
@@ -130,5 +133,9 @@ public class GamePanel extends JPanel {
 
     public Grid getGrid(){
         return grid;
+    }
+
+    public AI getBot(){
+        return bot;
     }
 }

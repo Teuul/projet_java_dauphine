@@ -15,7 +15,7 @@ public class MenuPanel extends JPanel {
 
         this.gameContainer = container;
         this.restartButton = new NewGameButton(gameContainer);
-        this.iaButton = new SolveButton(gameContainer);
+        this.iaButton = new SolveButton(gameContainer.getBot());
 
         this.add(restartButton,restartButton.getConstraints());
         this.add(iaButton,iaButton.getConstraints());
