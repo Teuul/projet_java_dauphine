@@ -251,13 +251,16 @@ public class Grid {
         /**
          * Returns true if the game is over, false if not
          */
+
+        Line[] l_extract = new Line[1];
         for(int j=0;j<size;j++){
             for(int i=0;i<size;i++){
-                if(getPoint(i,j).getIndex()==-1){
+                if(playableSpot(i,j,l_extract)){
                     return false;
                 }
             }
         }
+
         return true;
     }
 

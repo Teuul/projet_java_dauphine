@@ -14,6 +14,8 @@ public class Board extends JFrame{
         this.size = size;
         this.gamePane = new GamePanel(size);
         this.menuPane = new MenuPanel(gamePane);
+        this.gamePane.setGridChooser(menuPane.getGridChooser());
+        this.gamePane.setModeSlider(menuPane.getModeSlider());
 
         getContentPane().add(gamePane);
         getContentPane().add(menuPane);

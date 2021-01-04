@@ -23,7 +23,7 @@ public class SolveButton extends JButton {
         //this.gameContainer = container;
         this.constraints = new GridBagConstraints();
         this.constraints.gridx = 0;
-        this.constraints.gridy = 1;
+        this.constraints.gridy = 3;
         this.constraints.weighty = 1;
         this.constraints.gridwidth = 1;
         this.constraints.gridheight = 1;

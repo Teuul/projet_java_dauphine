@@ -11,6 +11,8 @@ public class GamePanel extends JPanel {
     private Grid grid;                  // model grid
     private int size;                   // grid size
     private AI bot;                     // solving model
+    private GridChooser gridChooser;    // Grid choosing text field
+    private ModeSlider modeSlider;      // Game mode slider (T or D)
 
     public GamePanel(int size){
         this.size = size;
@@ -104,6 +106,12 @@ public class GamePanel extends JPanel {
         return null;
     }
 
+    public void setGridChooser (GridChooser textField){
+        this.gridChooser = textField;
+    }
+
+    public void setModeSlider (ModeSlider modeSlider) { this.modeSlider = modeSlider; }
+
     public void newGame(){
         /**
          * Set up the model (grid) and the model view (PointView grid)
@@ -113,7 +121,11 @@ public class GamePanel extends JPanel {
             build = false;
         }
 
-        this.grid = new Grid(size,"resources/init_grid.txt", Grid.mode.TOUCHING);
+        if(!build)
+            this.grid = new Grid(size,"resources/init_grid.txt", Grid.mode.TOUCHING);
+        else
+            this.grid = new Grid(size,"resources/"+gridChooser.getText(),modeSlider.getMode());
+
         for(int j=0;j<size;j++){
             for(int i=0;i<size;i++){
                 if(!build){

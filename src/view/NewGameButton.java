@@ -10,7 +10,7 @@ public class NewGameButton extends JButton {
     private GridBagConstraints constraints;     // Button displaying constraints
 
     public NewGameButton(GamePanel container){
-        setPreferredSize(new Dimension(200,250));
+        setPreferredSize(new Dimension(200,170));
         setBackground(Color.DARK_GRAY);
         setForeground(Color.WHITE);
         setFocusPainted(false);
@@ -29,7 +29,7 @@ public class NewGameButton extends JButton {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("NewGame pressed");
-                container.newGame();
+                gameContainer.newGame();
             }
         });
     }

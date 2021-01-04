@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="LameyreTeulery" default="build" basedir=".">
+    <target name="build">
+        <!-- Compiling -->
+        <javac srcdir="src"
+               destdir="build"
+               debug="on"
+               optimize="off"
+        />
+
+        <!-- Building jar -->
+        <jar jarfile="LameyreTeulery.jar" basedir="build">
+            <fileset dir="build"/>
+            <manifest>
+                <attribute name="Main-Class" value="view/Board"/>
+            </manifest>
+        </jar>
+
+        <!-- Building javadoc -->
+        <javadoc sourcepath="src"
+                 destdir="doc" >
+            <fileset dir="src" defaultexcludes="yes">
+                <include name="**" />
+            </fileset>
+        </javadoc>
+    </target>
+
+    <target name="clean">
+        <delete dir="build"/>
+        <mkdir dir="build"/>
+    </target>
+</project>
