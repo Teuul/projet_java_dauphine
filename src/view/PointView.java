@@ -128,7 +128,7 @@ public class PointView extends JPanel {
      *
      * @param g Graphics
      */
-    public void drawLines(Graphics g){
+    private void drawLines(Graphics g){
         if(lineToDraw.contains(LineComponent.NORTHWEST)){
             g.drawLine(0,0,7,7);
             g.drawLine(0,1,7,8);

@@ -18,7 +18,7 @@
 
         <!-- Building javadoc -->
         <javadoc sourcepath="src"
-                 destdir="doc" >
+                 destdir="docs/doc" >
             <fileset dir="src" defaultexcludes="yes">
                 <include name="**" />
             </fileset>
