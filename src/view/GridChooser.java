@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GridChooser extends JTextField {
-    private GridBagConstraints constraints;
+    private GridBagConstraints constraints;     // displaying constraints
 
     public GridChooser(){
         setPreferredSize(new Dimension(200,30));

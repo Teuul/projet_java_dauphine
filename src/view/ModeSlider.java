@@ -7,10 +7,10 @@ import java.awt.*;
 import java.util.Hashtable;
 
 public class ModeSlider extends JSlider {
-    static final int min = 0;
-    static final int max = 1;
-    static final int init = 0;
-    private GridBagConstraints constraints;
+    static final int min = 0;               // Lower boundary game mode set
+    static final int max = 1;               // Upper boundary game mode set
+    static final int init = 0;              // Game mode init
+    private GridBagConstraints constraints; // displaying constraints
 
     public ModeSlider(){
         super(JSlider.HORIZONTAL,min,max,init);
@@ -37,6 +37,9 @@ public class ModeSlider extends JSlider {
         return constraints;
     }
 
+    /**
+     * @return Grid.mode to play (Disjoint or Touching)
+     */
     public Grid.mode getMode(){
         if(getValue()==0)
             return Grid.mode.TOUCHING;

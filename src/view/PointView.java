@@ -91,19 +91,23 @@ public class PointView extends JPanel {
         this.paint(this.getGraphics());
     }
 
+    /**
+     * Add non existing line components to draw
+     *
+     * @param comp  Piece of a line to add to this PointView (JPanel)
+     */
     public void addLineComponent(LineComponent comp){
-        /**
-         * Add non existing line components to draw
-         */
         if(!lineToDraw.contains(comp)){
             lineToDraw.add(comp);
         }
     }
 
+    /**
+     * Add line components given a line type
+     *
+     * @param type  LineType (horizontal, vertical, etc ...)
+     */
     public void updateLineToDraw(LineType type){
-        /**
-         * Add line components given a line type
-         */
         if(type==LineType.HORIZONTAL){
             addLineComponent(LineComponent.WEST);
             addLineComponent(LineComponent.EAST);
@@ -119,10 +123,12 @@ public class PointView extends JPanel {
         }
     }
 
+    /**
+     * Graphic method: draw the line components
+     *
+     * @param g Graphics
+     */
     public void drawLines(Graphics g){
-        /**
-         * Graphic method: draw the line components
-         */
         if(lineToDraw.contains(LineComponent.NORTHWEST)){
             g.drawLine(0,0,7,7);
             g.drawLine(0,1,7,8);
@@ -157,6 +163,10 @@ public class PointView extends JPanel {
         }
     }
 
+    /**
+     * Updates the view with a new Point (usually due to restarting a game)
+     * @param p Point
+     */
     public void resetView(Point p){
         this.modelPoint = p;
         this.x = p.getX();

@@ -23,10 +23,12 @@ public class Grid {
         this.m = m;
     }
 
+    /**
+     * Reads a grid from a file (including its size)
+     * @param   filename  Name of the file
+     * @return  Double sized array of Points representing the grid
+     */
     public Point[][] readGrid(String filename){
-        /**
-         * Reads a grid from a file (including its size)
-         */
         String data;
         int grid_size;
         try{
@@ -60,15 +62,20 @@ public class Grid {
         }
         catch(FileNotFoundException e){
             System.out.println("Cannot read file: "+ filename);
-            e.printStackTrace();
+            //e.printStackTrace();
+            return null;
         }
         return null;
     }
 
+    /**
+     * Returns true if the point is playable and false if not (according to the mode and the position)
+     * @param x             X-coordinate in the grid
+     * @param y             Y-coordinate in the grid
+     * @param line_extract  the line to draw if the chosen spot is played
+     * @return              boolean about whether the spot is playable
+     */
     public boolean playableSpot(int x,int y,Line[] line_extract){
-        /**
-         * Returns true if the point is playable and false if not (according to the mode and the position)
-         */
         if(getPoint(x,y).getIndex()==-1){
             int bInf = 0;   // inferior boundary of the aligning points index set
             int bSup;       // superior boundary of the aligning points index set
@@ -166,6 +173,12 @@ public class Grid {
         return false;
     }
 
+    /**
+     * Updates the model, placing a point
+     *
+     * @param x     X-coordinate of the chosen play
+     * @param y     Y-coordinate of the chosen play
+     */
     public void play(int x,int y){
         Point p = getPoint(x,y);
         if(p!=null){
@@ -187,10 +200,18 @@ public class Grid {
         }
     }
 
+    /**
+     * Used with playableSpot, to find the maximum number of aligned point (meraeable into one line) around a certain point
+     * @param x     X-coordinate of the chosen play
+     * @param y     Y-coordinate of the chosen play
+     * @param testX X-coordinate of an aligned point within a range of 5
+     * @param testY Y-coordinate of an aligned point within a range of 5
+     * @param c     counter of aligned point
+     * @param bInf  lower boundary of the playable point index set
+     * @param bSup  upper boundary of the playable point index set
+     * @return      updated counter of aligned point
+     */
     private int countPoint(int x,int y,int testX,int testY,int c,int bInf,int bSup){
-        /**
-         * Used with playableSpot, to find the maximum number of aligned point (meraeable into one line) around a certain point
-         */
         if(getPoint(x,y)!=null){
             //System.out.print("("+x+";"+y+") : ");
             if((bInf<=getPoint(x,y).getIndex() && getPoint(x,y).getIndex()<=bSup) || (x==testX && y==testY)){
@@ -201,10 +222,13 @@ public class Grid {
         return c;
     }
 
+    /**
+     * Returns the chosen point (if exist)
+     * @param x X-coordinate in the grid
+     * @param y Y-coordinate in the grid
+     * @return  Point
+     */
     public Point getPoint(int x,int y){
-        /**
-         * Returns the chosen point (if exist)
-         */
         if(0<=x && x<size && 0<=y && y<size)
             return grid[x][y];
         return null;
@@ -231,10 +255,12 @@ public class Grid {
         return res;
     }
 
+    /**
+     * Returns the points composing the given line
+     * @param l Line object
+     * @return  an array of Points, composing the given line
+     */
     private ArrayList<Point> getLinePoints(Line l){
-        /**
-         * Returns the points composing the given line
-         */
         ArrayList<Point> points = new ArrayList<>();
         points.add(l.getP1());
         int DX = l.getP2().getX()-l.getP1().getX();
@@ -247,11 +273,11 @@ public class Grid {
         return points;
     }
 
+    /**
+     * Returns true if the game is over, false if not
+     * @return  boolean whether the game is over or not
+     */
     public boolean isOver(){
-        /**
-         * Returns true if the game is over, false if not
-         */
-
         Line[] l_extract = new Line[1];
         for(int j=0;j<size;j++){
             for(int i=0;i<size;i++){
@@ -266,16 +292,5 @@ public class Grid {
 
     public int getSize(){
         return size;
-    }
-
-    public static void main(String args[]){
-        Line[] line_extract = new Line[1];
-
-        Grid b = new Grid(16,"resources/init_grid.txt",mode.TOUCHING);
-        System.out.println(b);
-        System.out.println(b.playableSpot(10,5,line_extract));
-        System.out.println(b.playableSpot(10,6,line_extract));
-        System.out.println(b.playableSpot(11,5,line_extract));
-        System.out.println(b.playableSpot(12,5,line_extract));
     }
 }

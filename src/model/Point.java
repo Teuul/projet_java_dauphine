@@ -26,22 +26,18 @@ public class Point {
         return x;
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
     public int getY() {
         return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
     }
 
     public void setView(PointView view){
         this.view = view;
     }
 
+    /**
+     * Returns the view in the grid of the point
+     * @return  PointView
+     */
     public PointView getView(){
         return this.view;
     }

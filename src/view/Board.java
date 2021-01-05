@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class Board extends JFrame{
     private GamePanel gamePane;     // game container (JPanel)
-    private MenuPanel menuPane;
+    private MenuPanel menuPane;     // menu container (JPanel)
     private int size;               // game size
 
     public Board(int size){

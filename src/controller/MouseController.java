@@ -11,9 +11,11 @@ public class MouseController implements MouseMotionListener, MouseListener {
     final int xOffset = 50+9;           // JFrame X-offset + banner offset
     final int yOffset = 50+33;          // JFrame Y-offset + banner offset
     private GamePanel gameContainer;    // reference to the game container (JPanel)
+    private int pointSize;
 
     public MouseController(GamePanel gamePane){
         this.gameContainer = gamePane;
+        this.pointSize = 25;
     }
 
     @Override
@@ -76,24 +78,32 @@ public class MouseController implements MouseMotionListener, MouseListener {
         }
     }
 
+    /**
+     * Returns the point view according to the given coordinates
+     *
+     * @param x X-coordinate in the grid
+     * @param y Y-coordinate in the grid
+     * @return
+     */
     private PointView aimedPoint(int x, int y){
-        /**
-         * Returns the point view according to the given coordinates
-         */
         return gameContainer.getPointView(getGridX(x),getGridY(y));
     }
 
+    /**
+     * Returns the cursor X-coordinate in the grid
+     * @param x Graphical X-coordinate (in the JFrame)
+     * @return
+     */
     private int getGridX(int x){
-        /**
-         * Returns the cursor X-coordinate in the grid
-         */
-        return (x-xOffset)/25;
+        return (x-xOffset)/pointSize;
     }
 
+    /**
+     * Returns the cursor Y-coordinate in the grid
+     * @param y Graphical Y-coordinate (in the JFrame)
+     * @return
+     */
     private int getGridY(int y){
-        /**
-         * Returns the cursor Y-coordinate in the grid
-         */
-        return (y-yOffset)/25;
+        return (y-yOffset)/pointSize;
     }
 }

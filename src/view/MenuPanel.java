@@ -7,8 +7,8 @@ public class MenuPanel extends JPanel {
     private NewGameButton restartButton;    // Button: starts a new game
     private SolveButton iaButton;           // Button: execute the AI solving algorithm
     private GamePanel gameContainer;        // Game pane
-    private GridChooser gridTextField;
-    private ModeSlider slider;
+    private GridChooser gridTextField;      // Selecting grid file text field
+    private ModeSlider slider;              // Selecting game mode slider
 
     public MenuPanel(GamePanel container){
         setLayout(new GridBagLayout());

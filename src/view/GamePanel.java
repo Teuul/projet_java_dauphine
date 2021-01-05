@@ -75,27 +75,43 @@ public class GamePanel extends JPanel {
         newGame();
     }
 
+    /**
+     * Returns the point model view
+     *
+     * @param x X-coordinate in the grid of the aimed Point
+     * @param y X-coordinate in the grid of the aimed Point
+     * @return  PointView
+     */
     public PointView getPointView(int x, int y){
         /**
-         * Returns the point model view
+         *
          */
         if(0<=x && x<size && 0<=y && y<size)
             return gridView[x][y];
         return null;
     }
 
+    /**
+     * Add the point model view to the container
+     *
+     * @param x     X-coordinate of the PointView in the grid (JPanel)
+     * @param y     Y-coordinate of the PointView in the grid (JPanel)
+     * @param pv    PointView
+     */
     public void addPointView(int x, int y, PointView pv){
         /**
-         * Add the point model view to the container
+         *
          */
         gridView[x][y] = pv;
         gridView[x][y].updateView();
     }
 
+    /**
+     * Returns the last hovered (formerly hovered) point (point view)
+     *
+     * @return PointView
+     */
     public PointView lastHovered(){
-        /**
-         * Search for the last hovered (formerly hovered) point (point view)
-         */
         for(int j=0;j<size;j++){
             for(int i=0;i<size;i++){
                 if(gridView[i][j].getHovered()){
@@ -112,10 +128,10 @@ public class GamePanel extends JPanel {
 
     public void setModeSlider (ModeSlider modeSlider) { this.modeSlider = modeSlider; }
 
+    /**
+     * Set up the model (grid) and the model view (PointView grid)
+     */
     public void newGame(){
-        /**
-         * Set up the model (grid) and the model view (PointView grid)
-         */
         boolean build = true;
         if(grid==null){
             build = false;
